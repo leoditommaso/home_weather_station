@@ -5,8 +5,7 @@ class Sensor
   attr_reader :humidity, :temperature
 
   def initialize
-    update_humidity
-    update_temperature
+    update_all
   end
 
   #
