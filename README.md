@@ -3,6 +3,23 @@
 This is a Sinatra application that reads temperature and humidity information
 from an Arduino board and publish it through an API.
 
+## Configuration
+
+* You will need an Arduino board running the corresponding program (which I will
+publish shortly).
+* Connect your Arduino board through serial port and replace, in
+  app/serial_access.rb file, the variable port_str to match the USB port where
+Arduino board is connected.
+
+## Usage
+
+To use this program run, from the command line:
+
+```
+bundle install
+ruby app/home_weather_station.rb
+```
+
 ## License
 
 The MIT License (MIT)
