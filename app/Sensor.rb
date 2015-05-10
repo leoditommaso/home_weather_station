@@ -1,34 +1,29 @@
-class Sensor
+require_relative 'sensor_source'
 
-  require_relative 'serial_access'
+module HomeWeatherStation
+  class Sensor
 
-  attr_reader :humidity, :temperature
+    attr_reader :humidity, :temperature
 
-  def initialize
-    update_all
+    def initialize
+      update_all
+    end
+
+    def update_all
+      values = HomeWeatherStation::SensorSource::read_from(:serial)
+      @humidity = values[:humidity]
+      @temperature = values[:temperature]
+    end
+
+    def update_humidity
+      values = HomeWeatherStation::SensorSource::read_from(:serial)
+      @humidity = values[:humidity]
+    end
+
+    def update_temperature
+      values = HomeWeatherStation::SensorSource::read_from(:serial)
+      @temperature = values[:temperature]
+    end
+
   end
-
-  #
-  # Arduino program returns a CSV where the first item is the humidity and the second one the temperature.
-  #
-
-  def update_all
-    serial_port = open_serial_connection
-    @humidity = serial_port.gets.chomp.split(",").first
-    @temperature = serial_port.gets.chomp.split(",").last
-    serial_port.close
-  end
-
-  def update_humidity
-    serial_port = open_serial_connection
-    @humidity = serial_port.gets.chomp.split(",").first
-    serial_port.close
-  end
-
-  def update_temperature
-    serial_port = open_serial_connection
-    @temperature = serial_port.gets.chomp.split(",").last
-    serial_port.close
-  end
-
 end

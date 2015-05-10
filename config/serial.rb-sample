@@ -1,0 +1,7 @@
+configure do
+  set :serial_port, '/dev/tty.usbmodem1411'
+  set :serial_baud_rate, 9600
+  set :serial_data_bits, 8
+  set :serial_stop_bits, 1
+  set :serial_parity, SerialPort::NONE
+end
