@@ -15,34 +15,34 @@ require_relative 'config/serial.rb'
 module HomeWeatherStation
   class Application < Sinatra::Application
 
-    # Create sensors.
-    dining_room = Sensor.new
+    # Create sensor.
+    sensor = Sensor.new
 
     # API thread.
     Thread.new do
 
       get '/api/status', provides: 'json' do
-        { humidity: dining_room.humidity, temperature: dining_room.temperature }.to_json
+        { humidity: sensor.humidity, temperature: sensor.temperature }.to_json
       end
 
       get '/api/humidity', provides: 'json' do
-        { humidity: dining_room.humidity }.to_json
+        { humidity: sensor.humidity }.to_json
       end
 
       get '/api/temperature', provides: 'json' do
-        { temperature: dining_room.temperature }.to_json
+        { temperature: sensor.temperature }.to_json
       end
 
       get '/api/update/temperature' do
-        dining_room.update_temperature
+        sensor.update_temperature
       end
 
       get '/api/update/humidity' do
-        dining_room.update_humidity
+        sensor.update_humidity
       end
 
       get '/api/update/all' do
-        dining_room.update_all
+        sensor.update_all
       end
 
     end
@@ -53,7 +53,7 @@ module HomeWeatherStation
       scheduler = Rufus::Scheduler.new
 
       scheduler.every '30s' do
-        dining_room.update_all
+        sensor.update_all
       end
 
     end
