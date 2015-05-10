@@ -25,7 +25,6 @@ module HomeWeatherStation
   class Serial < SensorSource
 
     def self.read_values
-      # Port will probably change.
       settings = HomeWeatherStation::Application::settings
       sensor = {}
       SerialPort.open(settings.serial_port, settings.serial_baud_rate, settings.serial_data_bits, settings.serial_stop_bits, settings.serial_parity) do |serial_port|
