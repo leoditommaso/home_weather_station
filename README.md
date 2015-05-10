@@ -18,7 +18,7 @@ To use this program run, from the command line:
 
 ```
 bundle install
-rakeup config.ru
+rackup config.ru
 ```
 
 ## License
