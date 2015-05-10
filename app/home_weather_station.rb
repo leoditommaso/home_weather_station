@@ -16,16 +16,16 @@ dining_room = Sensor.new
 # API thread.
 Thread.new do
 
-  get '/api/status' do
-    "{\"humidity\": \"#{dining_room.humidity}\", \"temperature\": \"#{dining_room.temperature}\" }"
+  get '/api/status', provides: 'json' do
+    { humidity: dining_room.humidity, temperature: dining_room.temperature }.to_json
   end
 
-  get '/api/humidity' do
-    "Humidity is #{dining_room.humidity}"
+  get '/api/humidity', provides: 'json' do
+    { humidity: dining_room.humidity }.to_json
   end
 
-  get '/api/temperature' do
-    "Temperature is #{dining_room.temperature}"
+  get '/api/temperature', provides: 'json' do
+    { temperature: dining_room.temperature }.to_json
   end
 
   get '/api/update/temperature' do
