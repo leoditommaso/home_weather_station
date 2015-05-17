@@ -12,13 +12,13 @@ describe 'Home Weather Station API.' do
       expect(last_response).to be_ok
     end
 
-    it 'should response to requirements to api/temperature with 200 OK.' do
-      get '/api/temperature'
+    it 'should response to requirements to api/0/temperature with 200 OK.' do
+      get '/api/0/temperature'
       expect(last_response).to be_ok
     end
 
-    it 'should response to requirements to api/humidity with 200 OK.' do
-      get '/api/humidity'
+    it 'should response to requirements to api/0/humidity with 200 OK.' do
+      get '/api/0/humidity'
       expect(last_response).to be_ok
     end
   end
@@ -29,13 +29,13 @@ describe 'Home Weather Station API.' do
       expect(last_response.headers['Content-Type']).to eq('application/json')
     end
 
-    it 'should return a JSON when accessing api/temperature.' do
-      get '/api/temperature'
+    it 'should return a JSON when accessing api/0/temperature.' do
+      get '/api/0/temperature'
       expect(last_response.headers['Content-Type']).to eq('application/json')
     end
 
-    it 'should return a JSON when accessing api/humidity.' do
-      get '/api/humidity'
+    it 'should return a JSON when accessing api/0/humidity.' do
+      get '/api/0/humidity'
       expect(last_response.headers['Content-Type']).to eq('application/json')
     end
   end

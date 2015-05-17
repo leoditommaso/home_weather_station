@@ -3,26 +3,23 @@ require_relative 'sensor_source'
 module HomeWeatherStation
   class Sensor
 
-    attr_reader :humidity, :temperature
+    attr_reader   :id
+    attr_accessor :description, :humidity, :temperature
 
-    def initialize
-      update_all
+    def initialize(id, description)
+      @id = id
+      @description = description
+      @humidity = -1
+      @temperature = -1
     end
 
-    def update_all
-      values = HomeWeatherStation::SensorSource::read_from(:serial)
-      @humidity = values[:humidity]
-      @temperature = values[:temperature]
-    end
-
-    def update_humidity
-      values = HomeWeatherStation::SensorSource::read_from(:serial)
-      @humidity = values[:humidity]
-    end
-
-    def update_temperature
-      values = HomeWeatherStation::SensorSource::read_from(:serial)
-      @temperature = values[:temperature]
+    def to_hash
+      sensor = {}
+      sensor[self.id] = {}
+      sensor[self.id][:description] = self.description
+      sensor[self.id][:humidity] = self.humidity
+      sensor[self.id][:temperature] = self.temperature
+      sensor
     end
 
   end

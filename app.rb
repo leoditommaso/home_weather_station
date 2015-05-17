@@ -9,40 +9,41 @@ require 'sinatra'
 
 # Our local files.
 require_relative 'app/sensor'
-require_relative 'config/serial.rb'
+require_relative 'app/sensor_manager'
+require_relative 'config/serial'
 
 
 module HomeWeatherStation
   class Application < Sinatra::Application
 
-    # Create sensor.
-    sensor = Sensor.new
+    # Create sensors.
+    sensors = HomeWeatherStation::SensorManager.create_sensors
 
     # API thread.
     Thread.new do
 
+      get '/api/:id/status', provides: 'json' do
+        sensors[params['id'].to_i].to_hash.to_json
+      end
+
       get '/api/status', provides: 'json' do
-        { humidity: sensor.humidity, temperature: sensor.temperature }.to_json
+        sensors_information = {}
+        sensors.each do |sensor|
+          sensors_information.merge! sensor.to_hash
+        end
+        sensors_information.to_json
       end
 
-      get '/api/humidity', provides: 'json' do
-        { humidity: sensor.humidity }.to_json
+      get '/api/:id/humidity', provides: 'json' do
+        { params['id'] => { humidity: sensors[params['id'].to_i].humidity } }.to_json
       end
 
-      get '/api/temperature', provides: 'json' do
-        { temperature: sensor.temperature }.to_json
-      end
-
-      get '/api/update/temperature' do
-        sensor.update_temperature
-      end
-
-      get '/api/update/humidity' do
-        sensor.update_humidity
+      get '/api/:id/temperature', provides: 'json' do
+        { params['id'] => { temperature: sensors[params['id'].to_i].temperature } }.to_json
       end
 
       get '/api/update/all' do
-        sensor.update_all
+        HomeWeatherStation::SensorManager.update_all(sensors)
       end
 
     end
@@ -53,7 +54,7 @@ module HomeWeatherStation
       scheduler = Rufus::Scheduler.new
 
       scheduler.every '30s' do
-        sensor.update_all
+        HomeWeatherStation::SensorManager.update_all(sensors)
       end
 
     end

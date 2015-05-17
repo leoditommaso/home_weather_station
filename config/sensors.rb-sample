@@ -1,0 +1,24 @@
+configure do
+  set :sensors, [
+                  {
+                    id: 0,
+                    description: "Bathroom"
+                  },
+                  {
+                    id: 1,
+                    description: "Bedroom"
+                  },
+                  {
+                    id: 2,
+                    description: "Dining room"
+                  },
+                  {
+                    id: 3,
+                    description: "Kitchen"
+                  },
+                  {
+                    id: 4,
+                    description: "Outdoor"
+                  }
+                ]
+end

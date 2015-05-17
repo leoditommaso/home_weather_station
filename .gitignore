@@ -1,2 +1,3 @@
+config/sensors.rb
 config/serial.rb
 Gemfile.lock

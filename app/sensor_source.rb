@@ -26,13 +26,14 @@ module HomeWeatherStation
 
     def self.read_values
       settings = HomeWeatherStation::Application::settings
-      sensor = {}
+      serial_raw_data = ""
       SerialPort.open(settings.serial_port, settings.serial_baud_rate, settings.serial_data_bits, settings.serial_stop_bits, settings.serial_parity) do |serial_port|
-        serial_port.gets
-        sensor[:humidity] = serial_port.gets.chomp.split(",").first
-        sensor[:temperature] = serial_port.gets.chomp.split(",").last
+        serial_port.sync = true
+        # Do some reads to synchronize with the serial port.
+        serial_port.readline "EOI\r\n"
+        serial_raw_data = serial_port.readline("EOI\r\n").chomp("EOI\r\n")
       end
-      sensor
+      serial_raw_data
     end
 
   end
